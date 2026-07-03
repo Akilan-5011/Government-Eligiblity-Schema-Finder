@@ -9,7 +9,7 @@ export default function EligibilityPage() {
   const navigate = useNavigate();
   const [listening, setListening] = useState(false);
   const [form, setForm] = useState<UserProfile>({
-    name: "", age: 25, gender: "Male", occupation: "Student",
+    name: "", age: "" as unknown as number, gender: "", occupation: "Student",
     annualIncome: 200000, state: "All India", educationLevel: "Graduate", category: "General"
   });
 
@@ -89,13 +89,14 @@ export default function EligibilityPage() {
                 <label className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-foreground">
                   <Users className="h-4 w-4 text-primary" /> Age
                 </label>
-                <input type="number" value={form.age} onChange={e => update("age", parseInt(e.target.value) || 0)} min={0} max={120} className={inputClass} required />
+                <input type="number" value={form.age} onChange={e => update("age", e.target.value === "" ? "" as unknown as number : parseInt(e.target.value) || 0)} min={0} max={120} className={inputClass} required placeholder="Enter your age" />
               </div>
               <div>
                 <label className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-foreground">
                   <Users className="h-4 w-4 text-secondary" /> Gender
                 </label>
-                <select value={form.gender} onChange={e => update("gender", e.target.value)} className={selectClass}>
+                <select value={form.gender} onChange={e => update("gender", e.target.value)} className={selectClass} required>
+                  <option value="" disabled>Select Gender</option>
                   {["Male", "Female", "Other"].map(g => <option key={g}>{g}</option>)}
                 </select>
               </div>
