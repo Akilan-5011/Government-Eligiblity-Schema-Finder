@@ -9,8 +9,8 @@ export default function EligibilityPage() {
   const navigate = useNavigate();
   const [listening, setListening] = useState(false);
   const [form, setForm] = useState<UserProfile>({
-    name: "", age: "" as unknown as number, gender: "", occupation: "Student",
-    annualIncome: 200000, state: "All India", educationLevel: "Graduate", category: "General"
+    name: "", age: "" as unknown as number, gender: "", occupation: "",
+    annualIncome: "" as unknown as number, state: "", educationLevel: "Graduate", category: ""
   });
 
   const update = (key: keyof UserProfile, value: string | number) =>
@@ -104,7 +104,8 @@ export default function EligibilityPage() {
                 <label className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-foreground">
                   <Briefcase className="h-4 w-4 text-accent" /> Occupation
                 </label>
-                <select value={form.occupation} onChange={e => update("occupation", e.target.value)} className={selectClass}>
+                <select value={form.occupation} onChange={e => update("occupation", e.target.value)} className={selectClass} required>
+                  <option value="" disabled>Select Occupation</option>
                   {OCCUPATIONS.map(o => <option key={o}>{o}</option>)}
                 </select>
               </div>
@@ -112,13 +113,14 @@ export default function EligibilityPage() {
                 <label className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-foreground">
                   <IndianRupee className="h-4 w-4 text-success" /> Annual Income (₹)
                 </label>
-                <input type="number" value={form.annualIncome} onChange={e => update("annualIncome", parseInt(e.target.value) || 0)} min={0} className={inputClass} required />
+                <input type="number" value={form.annualIncome} onChange={e => update("annualIncome", e.target.value === "" ? "" as unknown as number : parseInt(e.target.value) || 0)} min={0} className={inputClass} required placeholder="Enter annual income" />
               </div>
               <div>
                 <label className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-foreground">
                   <MapPin className="h-4 w-4 text-destructive" /> State
                 </label>
-                <select value={form.state} onChange={e => update("state", e.target.value)} className={selectClass}>
+                <select value={form.state} onChange={e => update("state", e.target.value)} className={selectClass} required>
+                  <option value="" disabled>Select State</option>
                   {STATES.map(s => <option key={s}>{s}</option>)}
                 </select>
               </div>
@@ -134,7 +136,8 @@ export default function EligibilityPage() {
                 <label className="mb-1.5 flex items-center gap-1.5 text-sm font-medium text-foreground">
                   <Users className="h-4 w-4 text-primary" /> Social Category
                 </label>
-                <select value={form.category} onChange={e => update("category", e.target.value)} className={selectClass}>
+                <select value={form.category} onChange={e => update("category", e.target.value)} className={selectClass} required>
+                  <option value="" disabled>Select Category</option>
                   {SOCIAL_CATEGORIES.map(c => <option key={c}>{c}</option>)}
                 </select>
               </div>
